@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-HOST= os.getenv("HOST", "000000000")
+HOST= os.getenv("HOST", "127.0.0.1")
 PORT = int(os.getenv("PORT", 8000))
 IS_DEV_ENV = os.getenv("ENV", "development").startswith("dev")
 
