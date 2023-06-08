@@ -18,8 +18,8 @@ jobs:
       - run: python build.py
       - uses: actions/upload-artifact@v3.1.2
         with: 
-          name: cache openapi.json
-          path: dist
+          name: openapi.json
+          path: dist/openapi.json
           
       
 
@@ -30,15 +30,19 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
       - uses: actions/download-artifact@v2.1.1
         with:
-          path: openapi.json
-      - run: npx -y @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-axios -o dist/ -p npmName ${{github.event.repository.name}}
-      - run: npm publish
+          name: openapi.json
+      - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p "npmName=${{github.event.repository.name}}"
+      - run: |
+          npm pkg set repository.url=${{github.event.repository.url}} private=true publishConfig.registry=https://npm.pkg.github.com/
+          npm pkg delete license
+          npm install 
+          npm run build
+      - run: npm publish dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
