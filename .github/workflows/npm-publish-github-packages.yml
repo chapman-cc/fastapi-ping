@@ -14,10 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3.1.4
-      - uses: triaxtec/openapitools-generator-action@v1.0.0
-        with:
-          generator: typescript-axios
-          openapi-file: dist/openapi.json
+      - run: pip install -r requirements
+      - run: python start &
       - uses: actions/upload-artifact@v3.1.2
         with:
           path: dist/openapi.json
