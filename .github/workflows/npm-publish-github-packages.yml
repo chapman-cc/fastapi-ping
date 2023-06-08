@@ -14,12 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3.1.4
-      - run: pip install -r requirements.txt
-      - run: python main.py | echo $! > pid &
+      - uses: triaxtec/openapitools-generator-action@v1.0.0
+      - with:
+          generator: typescript-axios
+          openapi-file: dist/openapi.json
       - uses: actions/upload-artifact@v3.1.2
         with:
           path: dist/openapi.json
-      - run: kill $(cat pid)
           
       
 
