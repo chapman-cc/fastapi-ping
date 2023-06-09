@@ -37,7 +37,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - uses: actions/download-artifact@v2.1.1
         with:
-          path: openapi.json
+          name: openapi.json
       - run: |
           npx -y @openapitools/openapi-generator-cli generate \
           -g typescript-axios \
