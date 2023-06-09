@@ -40,10 +40,10 @@ jobs:
           name: openapi.json
       - run: |
           npx -y @openapitools/openapi-generator-cli generate \
-          -g typescript-axios \
-          -i openapi.json \ 
-          -o dist \
-          -p npmName=${{github.event.repository.name}}
+          -g=typescript-axios \
+          -i=openapi.json \ 
+          -o=dist \
+          -p="npmName=${{github.event.repository.name}}"
       - run: npm publish dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
