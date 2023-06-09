@@ -41,7 +41,7 @@ jobs:
       - run: |
           npm pkg set repository.url=${{github.event.repository.url}} private=true
           npm pkg delete license
-          npm ci 
+          npm install 
           npm run build
       - run: npm publish dist
         env:
