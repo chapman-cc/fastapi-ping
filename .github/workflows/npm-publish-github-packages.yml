@@ -19,7 +19,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         with: 
           name: cache openapi.json
-          path: dist
+          path: dist/openapi.json
           
       
 
