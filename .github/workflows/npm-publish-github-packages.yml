@@ -18,7 +18,7 @@ jobs:
       - run: python build.py
       - uses: actions/upload-artifact@v3.1.2
         with: 
-          name: cache openapi.json
+          name: openapi.json
           path: dist/openapi.json
           
       
@@ -38,8 +38,12 @@ jobs:
       - uses: actions/download-artifact@v2.1.1
         with:
           path: openapi.json
-      - run: npx -y @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-axios -o openapi.json/cache/openapi.json
- -p npmName=${{github.event.repository.name}}
-      - run: npm publish
+      - run: |
+          npx -y @openapitools/openapi-generator-cli generate \
+          -i openapi.json \ 
+          -g typescript-axios 
+          -o dist/ 
+          -p npmName=${{github.event.repository.name}}
+      - run: npm publish dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
