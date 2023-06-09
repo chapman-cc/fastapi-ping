@@ -30,7 +30,6 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -42,8 +41,7 @@ jobs:
           npx -y @openapitools/openapi-generator-cli generate \
           -g=typescript-axios \
           -i=openapi.json \ 
-          -o=dist \
           -p="npmName=${{github.event.repository.name}}"
-      - run: npm publish dist
+      - run: npm publish 
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
