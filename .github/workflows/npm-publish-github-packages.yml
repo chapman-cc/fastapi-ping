@@ -39,7 +39,7 @@ jobs:
           name: openapi.json
       - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p "npmName=${{github.event.repository.name}}"
       - run: |
-          npm pkg set repository.url=${{repository.url}} private=true
+          npm pkg set repository.url=${{github.event.repository.url}} private=true
           npm pkg delete license
           npm ci 
           npm run build
