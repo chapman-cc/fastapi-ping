@@ -42,7 +42,7 @@ jobs:
           npx -y @openapitools/openapi-generator-cli generate \
           -g typescript-axios \
           -i openapi.json \ 
-          -o dist/ 
+          -o dist \
           -p npmName=${{github.event.repository.name}}
       - run: npm publish dist
         env:
