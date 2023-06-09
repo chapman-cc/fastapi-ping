@@ -37,11 +37,7 @@ jobs:
       - uses: actions/download-artifact@v2.1.1
         with:
           name: openapi.json
-      - run: |
-          npx -y @openapitools/openapi-generator-cli generate \
-          -g=typescript-axios \
-          -i=openapi.json \ 
-          -p="npmName=${{github.event.repository.name}}"
+      - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p "npmName=${{github.event.repository.name}}"
       - run: npm publish 
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
