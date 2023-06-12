@@ -41,7 +41,7 @@ jobs:
         run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p npmName=@${{github.repository}}
       - name: edit package.json attributes
         run: |
-          npm pkg set repository.url=${{github.event.repository.url}} private=true publishConfig.registry=https://npm.pkg.github.com/
+          npm pkg set repository.url=${{github.event.repository.url}} publishConfig.registry=https://npm.pkg.github.com/
           npm pkg delete license
           npm install 
           npm run build
