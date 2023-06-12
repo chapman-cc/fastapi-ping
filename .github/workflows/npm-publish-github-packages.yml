@@ -7,6 +7,8 @@ on:
   workflow_dispatch:
   release:
     types: [created]
+env:
+  NPM_PKG_NAME: "@${{github.event.org.login}}/${{github.event.repository.name}}"
 
 jobs:
   get-openapi-json:
@@ -30,6 +32,7 @@ jobs:
       contents: read
       packages: write
     steps:
+      - run: echo $NPM_PKG_NAME
       - uses: actions/setup-node@v3
         with:
           node-version: 16
