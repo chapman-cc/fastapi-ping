@@ -8,7 +8,7 @@ on:
   release:
     types: [created]
 env:
-  NPM_PKG_NAME: "@${{github.event.org.repository_owner}}/${{github.event.repository.name}}"
+  NPM_PKG_NAME: "@${{github.repository}}"
 
 jobs:
   get-openapi-json:
