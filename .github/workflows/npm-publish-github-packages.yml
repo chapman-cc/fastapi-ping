@@ -47,6 +47,7 @@ jobs:
           npm pkg delete license
           npm install 
           npm run build
+      - uses: actions/upload-artifact@v3.1.2
       - run: npm publish dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
