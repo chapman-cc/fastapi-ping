@@ -7,8 +7,6 @@ on:
   workflow_dispatch:
   release:
     types: [created]
-env:
-  NPM_PKG_NAME: "@${{github.repository}}"
 
 jobs:
   get-openapi-json:
@@ -39,16 +37,19 @@ jobs:
       - uses: actions/download-artifact@v2.1.1
         with:
           name: openapi.json
-      - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p npmName=@${{github.repository}}
-      - run: |
+      - name: build with openapi generator
+        run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p npmName=@${{github.repository}}
+      - name: edit package.json attributes
+        run: |
           npm pkg set repository.url=${{github.event.repository.url}} private=true publishConfig.registry=https://npm.pkg.github.com/
           npm pkg delete license
           npm install 
           npm run build
-      - run: echo "@${{github.repository_owner}}:registry=https://npm.pkg.github.com" > ./dist/.npmrc
+      - name: create .npmrc 
+        run: echo "@${{github.repository_owner}}:registry=https://npm.pkg.github.com" > .npmrc
       - uses: actions/upload-artifact@v3.1.2
         with:
           path: .
-      - run: npm publish dist
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
