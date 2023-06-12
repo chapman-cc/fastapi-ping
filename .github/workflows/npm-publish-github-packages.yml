@@ -40,13 +40,13 @@ jobs:
       - uses: actions/download-artifact@v2.1.1
         with:
           name: openapi.json
-      - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p npmName=$NPM_PKG_NAME
+      - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p npmName=@${{github.repository}}
       - run: |
+          echo "@${{github.repository_owner}}:registry=https://npm.pkg.github.com" > .npmrc
           npm pkg set repository.url=${{github.event.repository.url}} private=true publishConfig.registry=https://npm.pkg.github.com/
           npm pkg delete license
           npm install 
           npm run build
-      - run: cat package.json
       - run: npm publish dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
