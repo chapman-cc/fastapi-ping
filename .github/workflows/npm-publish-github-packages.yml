@@ -32,7 +32,6 @@ jobs:
       contents: read
       packages: write
     steps:
-      - run: echo $NPM_PKG_NAME
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -42,11 +41,11 @@ jobs:
           name: openapi.json
       - run: npx -y @openapitools/openapi-generator-cli generate -g typescript-axios -i openapi.json -p npmName=@${{github.repository}}
       - run: |
-          echo "@${{github.repository_owner}}:registry=https://npm.pkg.github.com" > .npmrc
           npm pkg set repository.url=${{github.event.repository.url}} private=true publishConfig.registry=https://npm.pkg.github.com/
           npm pkg delete license
           npm install 
           npm run build
+      - run: echo "@${{github.repository_owner}}:registry=https://npm.pkg.github.com" > ./dist/.npmrc
       - uses: actions/upload-artifact@v3.1.2
         with:
           path: .
