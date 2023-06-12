@@ -5,8 +5,13 @@ name: Publish OpenAPI axios library
 
 on:
   workflow_dispatch:
-  release:
-    types: [created]
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches:
+      - main
+
 
 jobs:
   get-openapi-json:
